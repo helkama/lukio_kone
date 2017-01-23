@@ -1,0 +1,15 @@
+{
+  "name": "lukio_kone",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
