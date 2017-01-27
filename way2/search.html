@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Algolia | User Search</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <style>
+    .search {
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+    }
+    .search input {
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      width: 300px;
+    }
+    .results {
+      font-family: 'Roboto', sans-serif;
+      margin: auto;
+      text-align: center;
+    }
+    .results ul {
+      font-family: 'Roboto', sans-serif;
+      list-style-type: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="search">
+    <h1>Search users in real time</h1>
+    <input type="text">
+  </div>
+  <div class="results">
+    <ul id="users"></ul>
+  </div>
+
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+  <script>
+    var $input = $('input');
+    var $users = $('#users');
+
+
+    $(document).ready(function() {
+      var client = algoliasearch('TYX8KRGJLG', '1237bc85a675caf75f12a17c1f2f53d6');
+      var index = client.initIndex('getstarted_actors');
+
+      $input.keyup(function() {
+        index.search($input.val(), {
+          hitsPerPage: 10,
+          facets: '*'
+        }, searchCallback);
+      }).focus();
+    });
+
+    function searchCallback(err, content) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      $users.empty();
+
+      for (var i = 0; i < content.hits.length; i++) {
+        $users.append('<li>' + content.hits[i].name + '</li>');
+      }
+    };
+  </script>
+</body>
+</html>
